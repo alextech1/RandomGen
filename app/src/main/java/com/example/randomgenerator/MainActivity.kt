@@ -19,6 +19,7 @@ import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     lateinit var linearLayout: LinearLayout
+    private var concat: Set<Int> = emptySet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
         val numberGenerated4: TextView = findViewById(R.id.numberGenerated4)
         val numberGenerated5: TextView = findViewById(R.id.numberGenerated5)
         val collectedNumbers: TextView = findViewById(R.id.collectedNumbers)
-        var concat: Set<Int> = emptySet()
+
         //var addBtn: Button? = null
         linearLayout = findViewById(R.id.linearLayout)
 
@@ -76,13 +77,22 @@ class MainActivity : ComponentActivity() {
 
     private fun createAndAddView()
     {
-        val textView = TextView(this)
+        val array: Array<Int> = concat.toTypedArray()
+        //val textView = TextView(this)
+        val btn = Button(this)
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT)
+              LinearLayout.LayoutParams.WRAP_CONTENT)
 
-        textView.layoutParams = params
-        textView.text = "HELLLLOOOOOO"
-        linearLayout.addView(textView)
+        btn.text = array.first().toString()
+        btn.setOnClickListener(View.OnClickListener {
+            btn.text = "nice"
+        })
+        linearLayout.addView(btn)
+
+        //textView.layoutParams = params
+        //textView.text = array.first().toString()
+        //linearLayout.addView(textView)
+
     }
 
 

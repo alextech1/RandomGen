@@ -1,9 +1,12 @@
 package com.example.randomgenerator
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TableLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +22,7 @@ import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     lateinit var linearLayout: LinearLayout
+    //lateinit var tblLayout: TableLayout
     private var concat: Set<Int> = emptySet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,22 +83,25 @@ class MainActivity : ComponentActivity() {
     {
         val array: Array<Int> = concat.toTypedArray()
         //val textView = TextView(this)
-        val btn = Button(this)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+        //val btn = Button(this)
+
+        val params = LinearLayout.LayoutParams(200,
               LinearLayout.LayoutParams.WRAP_CONTENT)
 
-        btn.text = array.first().toString()
-        btn.setOnClickListener(View.OnClickListener {
-            btn.text = "nice"
-        })
-        linearLayout.addView(btn)
+        //params.gravity = RelativeLayout.ALIGN_PARENT_RIGHT;
 
-        //textView.layoutParams = params
-        //textView.text = array.first().toString()
-        //linearLayout.addView(textView)
+        //btn.text = array.first().toString()
+        for (i in array) {
+            val btn = Button(this)
+            //btn.width = 5
+            //btn.height = 5
+            btn.text = i.toString()
+            btn.layoutParams = params
+            //btn.gravity = Gravity.RIGHT
+            linearLayout.addView(btn)
+        }
 
     }
-
 
 }
 

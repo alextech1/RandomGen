@@ -87,16 +87,16 @@ class MainActivity : ComponentActivity() {
         val array: IntArray = concat.toIntArray()
         //val array = IntArray(size)
 
-        for (i in array) {
+        for ((index, i) in array.withIndex()) {
             val button = Button(this).apply {
                 layoutParams = ViewGroup.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT)
-                id = i + 1
-                text = "${i + 1}"
+                id = index + 1
+                text = i.toString()
             }
             root.addView(button)
         }
         val flow = findViewById<Flow>(R.id.flow)
-        flow.referencedIds = array
+        flow.referencedIds = (1 .. array.size).toList().toIntArray()
     }
 
 

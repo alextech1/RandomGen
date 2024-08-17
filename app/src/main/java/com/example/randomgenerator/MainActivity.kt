@@ -1,28 +1,50 @@
 package com.example.randomgenerator
 
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.random.Random
 
-class MainActivity : ComponentActivity() {
-    //lateinit var linearLayout: LinearLayout
-    //lateinit var tblLayout: TableLayout
+class MainActivity : AppCompatActivity() {
 
-    var concat: Set<Int> = emptySet()
+    private lateinit var btmNavigationView : BottomNavigationView
+    private var concat: Set<Int> = emptySet()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val mainFragment=MainFragment()
+        val favFragment=FavFragment()
+
+        //setCurrentFragment(mainFragment)
+
+        btmNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)!!
+        btmNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> setCurrentFragment(mainFragment)
+                R.id.favorites -> setCurrentFragment(favFragment)
+
+            }
+            true
+        }
+
+
         val generateButton: Button = findViewById(R.id.buttonGenerate)
         val selNumbers: Button = findViewById(R.id.selectNumbers)
+
         val numberGenerated: TextView = findViewById(R.id.numberGenerated)
         val numberGenerated2: TextView = findViewById(R.id.numberGenerated2)
         val numberGenerated3: TextView = findViewById(R.id.numberGenerated3)
@@ -30,8 +52,6 @@ class MainActivity : ComponentActivity() {
         val numberGenerated5: TextView = findViewById(R.id.numberGenerated5)
         val collectedNumbers: TextView = findViewById(R.id.collectedNumbers)
 
-        //var addBtn: Button? = null
-        //linearLayout = findViewById(R.id.linearLayout)
 
         generateButton.setOnClickListener {
             val randomNumbers = generateSequence {
@@ -74,29 +94,44 @@ class MainActivity : ComponentActivity() {
             numberGenerated5.text = "none"
             collectedNumbers.text = concat.toString()
             createAndAddView()
-            //val intent = Intent(this@MainActivity, SelectNumbers::class.java)
-            //startActivity(intent)
+
         }
+
+
+
     }
+
+    private fun setCurrentFragment(fragment:Fragment)=
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment,fragment)
+            commit()
+        }
+
 
     private fun createAndAddView()
     {
         val root = findViewById<ConstraintLayout>(R.id.root)
+        lateinit var button: Button
 
-        //val size = 14
         val array: IntArray = concat.toIntArray()
-        //val array = IntArray(size)
 
         for ((index, i) in array.withIndex()) {
-            val button = Button(this).apply {
+                button = Button(this).apply {
                 layoutParams = ViewGroup.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT)
                 id = index + 1
                 text = i.toString()
+                    setOnClickListener {
+                        Toast.makeText(this@MainActivity, "Clicked $i", Toast.LENGTH_SHORT).show()
+                    }
+
             }
             root.addView(button)
+
         }
         val flow = findViewById<Flow>(R.id.flow)
         flow.referencedIds = (1 .. array.size).toList().toIntArray()
+
+
     }
 
 

@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 randomNumbers3,
                 randomNumbers4,
                 randomNumbers5
-            )
+            ) //test
 
 
             numberGenerated.text = randomNumbers.toString()
